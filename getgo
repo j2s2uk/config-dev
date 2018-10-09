@@ -1,0 +1,49 @@
+#! /bin/sh -
+# Jeff Deacon - 14 Sept 2018 (updated to version 1.11 previously 1.10.3)
+#GOVER="1.10.3"
+GOVER="1.11"
+GOTAR="go"$GOVER".tar.gz"
+
+# Do not automatically overwrite an existing installation
+if [ -d "$HOME/bin/go" ] ; then
+	echo "GoBin folder already exists!"
+	echo "  rm -rf ~/bin/go"
+	echo "  and then rerun getgo ..."
+	exit 1
+fi
+
+if [ ! -d "bin" ] ; then
+	echo "Creating bin folder ..."
+	mkdir -p "$HOME/bin"
+fi
+
+if [ ! -s $GOTAR ] ; then
+	echo "Downloading go toolset ..."
+	wget "https://dl.google.com/go/go$GOVER.linux-amd64.tar.gz" -O$GOTAR
+fi
+
+if [ ! -d "$HOME/bin/go" ] ; then
+	echo "Extracting go toolset from archive ..."
+	tar -C "$HOME/bin" -xzf $GOTAR
+fi
+
+if [ ! -d "$HOME/dev/go" ] ; then
+	echo "Creating source code folder structure ..."
+	# these will create the parent /dev and /dev/src folders
+	mkdir -p "$HOME/dev/go/src/local"
+	mkdir -p "$HOME/dev/go/pkg"
+	mkdir -p "$HOME/dev/go/bin"
+fi
+
+if grep "set go development" $HOME/.profile > /dev/null
+then
+	echo ".profile already contains the necessary script"
+else
+	if [ -s go.profile ] ; then
+		echo "Appending go.profile >> ~/.profile"
+		cat go.profile >> ~/.profile
+	else
+		echo "ERROR: Cannot find go.profile to append to .profile"
+	fi
+fi
+echo "ToDo: Remove $GOTAR if no longer needed"
