@@ -1,0 +1,25 @@
+git clone https://github.com/fatih/vim-go.git ~/.vim/pack/plugins/start/vim-go
+echo "Now run vim and execute :GoInstallBinaries"
+To update :GoUpdateBinaries
+
+Install FZF fuzzyfind too in Vim ----
+-------------------------------------
+go get github.com/junegunn/fzf
+cd ~/dev/go/src/github.com/junegunn/fzf
+go build
+cp ./fzf ~/bin
+mkdir -p ~/.vim/pack/bundle/start
+cd ~/.vim/pack/bundle/start
+git clone https://github.com/junegunn/fzf
+
+Now run vim and do :FZF should work
+
+Add the following line to ~/.vim/vimrc
+nnoremap <C-p> :<C-u>FZF<CR>
+
+Now Ctrl<p> will run the :FZF command in normal mode
+-----------------------------------------------------
+
+
+
+
