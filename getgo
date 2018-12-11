@@ -1,7 +1,6 @@
 #! /bin/sh -
-# Jeff Deacon - 14 Sept 2018 (updated to version 1.11 previously 1.10.3)
-#GOVER="1.10.3"
-GOVER="1.11"
+# Jeff Deacon - 11 Dec 2018
+GOVER="1.11.2"
 GOTAR="go"$GOVER".tar.gz"
 
 # Do not automatically overwrite an existing installation
