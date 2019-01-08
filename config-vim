@@ -1,0 +1,41 @@
+#! /bin/sh -
+# Jeff Deacon - 8 Jan 2018
+
+if [ ! -d "$HOME/bin" ] ; then
+    echo "No bin folder in home!"
+    echo "Have you installed go yet?"
+    exit 1
+fi
+
+if [ ! -d "$HOME/.vim" ] ; then
+    echo "Creating ~/.vim folder"
+	mkdir "$HOME/.vim"
+fi
+echo "Copying vimrc to .vim"
+if [ -s "$HOME/.vim/vimrc" ] ; then
+    mv $HOME/.vim/vimrc $HOME/.vim/vimrc.old
+fi
+cp vimrc ~/.vim/vimrc
+
+if [ ! -s "$HOME/bin/fzf" ] ; then
+    echo "Getting and installing FZF"
+    if [ ! -d "$HOME/dev/go/src/github.com/junegunn/fzf" ] ; then
+        go get github.com/junegunn/fzf
+    fi
+    if [ -d "$HOME/dev/go/src/github.com/junegunn/fzf" ] ; then
+        echo "Yay Fuzzy find found ... now building it"
+        cd $HOME/dev/go/src/github.com/junegunn/fzf
+        go build
+        cp ./fzf ~/bin
+    
+        mkdir -p $HOME/.vim/pack/bundle/start
+        cd $HOME/.vim/pack/bundle/start
+        git clone https://github.com/junegunn/fzf
+    fi
+fi
+
+if [ ! -d "$HOME/.vim/pack/plugins/start/vim-go" ] ; then
+    git clone https://github.com/fatih/vim-go.git $HOME/.vim/pack/plugins/start/vim-go
+    echo "in vim run :GoInstallBinaries to install vim-go"
+    echo "to update run :GoUpdateBinaries"
+fi
